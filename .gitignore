@@ -1,0 +1,17 @@
+auto
+
+_region_.*
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.pdf
+*.gz
+
+.shake
+
+.ghc.environment*
+dist
+dist-newstyle

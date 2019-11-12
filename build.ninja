@@ -1,0 +1,4 @@
+rule llmk
+  command = llmk $in
+
+build main.pdf: llmk main.tex
