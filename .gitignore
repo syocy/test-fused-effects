@@ -11,7 +11,10 @@ _region_.*
 *.gz
 
 .shake
+_build
 
 .ghc.environment*
 dist
 dist-newstyle
+
+tags
