@@ -2,6 +2,7 @@
 {- cabal:
 build-depends: base ^>=4.13.0.0
              , shake
+ghc-options: -O0 -rtsopts -threaded -with-rtsopts=-I0
 -}
 import Development.Shake
 import Development.Shake.Command
