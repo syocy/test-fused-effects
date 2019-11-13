@@ -2,7 +2,6 @@
 {- cabal:
 build-depends: base ^>=4.13.0.0
              , shake
-ghc-options: -O0 -rtsopts -threaded -with-rtsopts=-I0
 -}
 import Development.Shake
 import Development.Shake.Command
@@ -15,14 +14,14 @@ main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
   want ["main.pdf"]
 
-  let testLog = "dist-newstyle/build/x86_64-linux/ghc-8.8.1/test-fused-effects-0.1.0.0/t/test-fused-effects-test/test/test-fused-effects-0.1.0.0-test-fused-effects-test.log"
+  let testLog = "dist-newstyle/build/x86_64-linux/ghc-8.8.1/test-fused-effects-0.1.0.0/t/doctest/test/test-fused-effects-0.1.0.0-doctest.log"
 
   "main.pdf" %> \out -> do
-    need [testLog]
+    need [testLog, "main.tex"]
     cmd_ "llmk main.tex"
 
   testLog %> \out -> do
-    need ["src/**.hs", "test/**.hs"]
+    cmd_ "cabal v2-build"
     Exit c <- cmd "cabal v2-test"
     when (c /= ExitSuccess) $ fail "cabal v2-test fail"
 
