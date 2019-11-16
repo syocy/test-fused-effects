@@ -1,4 +1,9 @@
 module Main (main) where
 
+import Test.DocTest
+import System.FilePath.Glob
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented."
+main = do
+  hs <- glob "src/**/*.hs"
+  doctest $ ["-isrc"] <> hs

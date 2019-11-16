@@ -16,5 +16,8 @@ _build
 .ghc.environment*
 dist
 dist-newstyle
+cabal.project.local
 
 tags
+
+*~

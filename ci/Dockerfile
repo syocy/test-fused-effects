@@ -5,11 +5,13 @@ ENV LANG C.UTF-8
 RUN sed -i "s@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g" /etc/apt/sources.list
 
 RUN apt-get update && \
+  apt-get upgrade -y && \
+  apt-get dist-upgrade -y && \
   apt-get install -y tzdata
 ENV TZ Asia/Tokyo
 
 RUN apt-get install -y \
-  git \
+  git wget \
   texlive-latex-extra texlive-latex-recommended \
   texlive-lang-japanese texlive-fonts-recommended texlive-luatex \
   fonts-noto-cjk fonts-noto-color-emoji fonts-noto-mono \
@@ -28,7 +30,6 @@ RUN ghcup list -t all && \
   ghcup install-cabal latest
 
 RUN cabal user-config init && \
-  sed -E -i "s/^-- *write-ghc-environment-files:.*$/write-ghc-environment-files: ghc8.4.4+/g" /root/.cabal/config && \
   cabal v2-update
 
 RUN cabal v2-install doctest shake --installdir=/root/.cabal/bin
@@ -37,5 +38,13 @@ RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   cd /root/llmk && \
   ln -s llmk.lua llmk
 ENV PATH /root/llmk:$PATH
+
+RUN wget --trust-server-names "https://osdn.net/frs/redir.php?m=ymu&f=mytexpert%2F26068%2Fjlisting.sty.bz2" && \
+  bunzip2 jlisting.sty.bz2 && \
+  cp jlisting.sty /usr/share/texlive/texmf-dist/tex/latex/listings/ && \
+  chmod 644 /usr/share/texlive/texmf-dist/tex/latex/listings/jlisting.sty && \
+  mktexlsr
+
+# RUN cabal v2-configure --disable-documentation --write-ghc-environment-files=ghc8.4.4+
 
 CMD shake

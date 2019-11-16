@@ -18,12 +18,11 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
 
   "main.pdf" %> \out -> do
     need [testLog, "main.tex"]
-    cmd_ "llmk main.tex"
+    cmd "llmk main.tex"
 
   testLog %> \out -> do
     cmd_ "cabal v2-build"
-    Exit c <- cmd "cabal v2-test"
-    when (c /= ExitSuccess) $ fail "cabal v2-test fail"
+    cmd "cabal v2-test"
 
   phony "clean" $ do
     cmd_ "llmk -c"
