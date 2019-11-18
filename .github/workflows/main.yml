@@ -8,9 +8,6 @@ jobs:
       - uses: actions/checkout@v1
       - run: |
           cp -a ./* ./.github/actions/build-pdf/
-          pwd
-          ls
-          ls ./.github/actions/build-pdf
-      - uses: ./.github/actions/build-pdf@master
+      - uses: ./.github/actions/build-pdf/
         env:
           DOCKER_BUILDKIT: 1
