@@ -6,7 +6,11 @@ jobs:
     name: 'build-pdf-job'
     steps:
       - uses: actions/checkout@v1
+      - run: |
+          cp -a ./* ./.github/actions/build-pdf/
+          pwd
+          ls
+          ls ./.github/actions/build-pdf
       - uses: ./.github/actions/build-pdf@master
         env:
           DOCKER_BUILDKIT: 1
-        working-directory: ./
