@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  build-pdf-job:
+    runs-on: ubuntu-latest
+    name: 'build-pdf-job'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - uses: ./
+      - name: 'build-pdf action step'
+        id: build-pdf
+        uses: actions/build-pdf

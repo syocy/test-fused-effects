@@ -45,6 +45,9 @@ RUN wget --trust-server-names "https://osdn.net/frs/redir.php?m=ymu&f=mytexpert%
   chmod 644 /usr/share/texlive/texmf-dist/tex/latex/listings/jlisting.sty && \
   mktexlsr
 
-# RUN cabal v2-configure --disable-documentation --write-ghc-environment-files=ghc8.4.4+
+COPY . repo
+WORKDIR repo
 
-CMD shake
+RUN cabal v2-configure --disable-documentation --write-ghc-environment-files=ghc8.4.4+
+
+ENTRYPOINT ["./Shakefile.hs"]
