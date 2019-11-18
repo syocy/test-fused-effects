@@ -10,4 +10,4 @@ jobs:
       - uses: ./
       - name: 'build-pdf action step'
         id: build-pdf
-        uses: actions/build-pdf@master
+        uses: ./.github/actions/build-pdf@master
