@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - uses: ./github/actions/build-pdf/
+      - uses: ./.github/actions/build-pdf/
       - name: 'build-pdf action step'
         id: build-pdf
         uses: ./.github/actions/build-pdf@master
