@@ -2,11 +2,18 @@
 
 \usepackage[noto-otf,deluxe]{luatexja-preset}
 \usepackage{hyperref}
-\usepackage{listings,jlisting}
+\usepackage{lltjp-listings}
+
+\setmonofont[Scala=MatchLowerCase]{Ubuntu Mono}
 
 \renewcommand{\kanjifamilydefault}{\gtdefault}
 
-\title{play-with-fused-effects-ja}
+\lstset{
+  language={Haskell},
+  basicstyle={\ttfamily\footnotesize}
+}
+
+\title{test-fused-effects}
 \author{syocy}
 \date{\today}
 
@@ -22,6 +29,10 @@
   \item あ
   \item 感じ \textbf{感じ}
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Example1}
+  \lstinputlisting{src/README/Example1.hs}
 \end{frame}
 
 \end{document}

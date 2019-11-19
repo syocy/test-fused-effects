@@ -4,6 +4,8 @@ jobs:
   build-pdf-job:
     runs-on: ubuntu-latest
     name: 'build-pdf-job'
+    env:
+      DOCKER_BUILDKIT: 1
     steps:
       - uses: actions/checkout@v1
       - run: |

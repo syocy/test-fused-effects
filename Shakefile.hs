@@ -24,9 +24,16 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
     cmd_ "cabal v2-build"
     cmd "cabal v2-test"
 
+  phony "scratch" $ do
+    cmd_ "cabal v2-configure -O1 --disable-documentation --write-ghc-environment-files=ghc8.4.4+"
+    _ <- need ["main.pdf"]
+    _ <- cmd_ "cp main.pdf test-fused-effects.pdf"
+    _ <- need ["clean"]
+    pure ()
+
   phony "clean" $ do
     cmd_ "llmk -c"
     cmd_ "cabal v2-clean"
     cmd_ "cabal clean"
     removeFilesAfter "_build" ["//*"]
-    removeFilesAfter "." ["//*.pdf", "//*.nav", "//*.snm", "//*.gz", "//tags"]
+    removeFilesAfter "." ["//main.pdf", "//*.nav", "//*.snm", "//*.gz", "//tags", "//.ghc.environment*", "//*~"]

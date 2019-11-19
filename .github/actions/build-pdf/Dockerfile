@@ -18,6 +18,8 @@ RUN apt-get install -y \
   build-essential curl libgmp-dev libffi-dev libncurses-dev libtinfo5 && \
   apt-get autoremove -y
 
+RUN fc-cache -fv
+
 RUN mkdir -p ~/.ghcup/bin && \
   mkdir -p ~/.cabal/bin && \
   curl https://gitlab.haskell.org/haskell/ghcup/raw/master/ghcup > ~/.ghcup/bin/ghcup && \
@@ -32,22 +34,17 @@ RUN ghcup list -t all && \
 RUN cabal user-config init && \
   cabal v2-update
 
-RUN cabal v2-install doctest shake --installdir=/root/.cabal/bin
+RUN cabal v2-install doctest shake fused-effects --installdir=/root/.cabal/bin
 
 RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   cd /root/llmk && \
   ln -s llmk.lua llmk
 ENV PATH /root/llmk:$PATH
 
-RUN wget --trust-server-names "https://osdn.net/frs/redir.php?m=ymu&f=mytexpert%2F26068%2Fjlisting.sty.bz2" && \
-  bunzip2 jlisting.sty.bz2 && \
-  cp jlisting.sty /usr/share/texlive/texmf-dist/tex/latex/listings/ && \
-  chmod 644 /usr/share/texlive/texmf-dist/tex/latex/listings/jlisting.sty && \
-  mktexlsr
+# RUN wget --trust-server-names "https://osdn.net/frs/redir.php?m=ymu&f=mytexpert%2F26068%2Fjlisting.sty.bz2" && \
+#   bunzip2 jlisting.sty.bz2 && \
+#   cp jlisting.sty /usr/share/texlive/texmf-dist/tex/latex/listings/ && \
+#   chmod 644 /usr/share/texlive/texmf-dist/tex/latex/listings/jlisting.sty && \
+#   mktexlsr
 
-COPY . repo
-WORKDIR repo
-
-RUN cabal v2-configure --disable-documentation --write-ghc-environment-files=ghc8.4.4+
-
-ENTRYPOINT ["./Shakefile.hs"]
+ENTRYPOINT ["./Shakefile.hs", "scratch"]
