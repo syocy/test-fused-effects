@@ -14,11 +14,11 @@ RUN apt-get install -y \
   git wget \
   texlive-latex-extra texlive-latex-recommended \
   texlive-lang-japanese texlive-fonts-recommended texlive-luatex \
-  fonts-noto-cjk fonts-noto-color-emoji fonts-noto-mono fontconfig \
+  fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-noto-mono fonts-ubuntu fontconfig \
   build-essential curl libgmp-dev libffi-dev libncurses-dev libtinfo5 && \
   apt-get autoremove -y
 
-RUN fc-cache -fv
+RUN fc-cache -fv && luaotfload-tool -vvv --update
 
 RUN mkdir -p ~/.ghcup/bin && \
   mkdir -p ~/.cabal/bin && \
@@ -32,9 +32,9 @@ RUN ghcup list -t all && \
   ghcup install-cabal latest
 
 RUN cabal user-config init && \
-  cabal v2-update
+  cabal v2-update --global
 
-RUN cabal v2-install doctest shake fused-effects --installdir=/root/.cabal/bin
+RUN cabal v2-install doctest shake fused-effects --global --installdir=/root/.cabal/bin
 
 RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   cd /root/llmk && \

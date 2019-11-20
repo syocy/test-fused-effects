@@ -26,6 +26,7 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
 
   phony "scratch" $ do
     cmd_ "cabal v2-configure -O1 --disable-documentation --write-ghc-environment-files=ghc8.4.4+"
+    cmd_ "luaotfload-tool -vvv --update"
     _ <- need ["main.pdf"]
     _ <- cmd_ "cp main.pdf test-fused-effects.pdf"
     _ <- need ["clean"]
