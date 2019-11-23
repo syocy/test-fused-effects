@@ -2,8 +2,6 @@ FROM ubuntu:18.04
 
 ENV LANG C.UTF-8
 
-RUN sed -i "s@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g" /etc/apt/sources.list
-
 RUN apt-get update && \
   apt-get upgrade -y && \
   apt-get dist-upgrade -y && \
@@ -40,4 +38,4 @@ RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   ln -s llmk.lua llmk
 ENV PATH /root/llmk:$PATH
 
-ENTRYPOINT ["./Shakefile.hs", "scratch"]
+ENTRYPOINT ["./entrypoint.sh"]

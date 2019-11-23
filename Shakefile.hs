@@ -3,7 +3,6 @@
 build-depends: base ^>=4.13.0.0
              , shake
 -}
-{-# LANGUAGE LambdaCase #-}
 import Development.Shake
 import Development.Shake.Command
 import Development.Shake.FilePath
@@ -29,14 +28,6 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
     cmd "cabal v2-test"
 
   phony "scratch" $ do
-    doesDirectoryExist "/root/.ghcup" >>= \case
-      True -> cmd_ "cp -a /root/.ghcup $HOME"
-      False -> pure ()
-    doesDirectoryExist "/root/.cabal" >>= \case
-      True -> cmd_ "cp -a /root/.cabal $HOME"
-      False -> pure ()
-    cmd_ "cabal v2-configure -O1 --disable-documentation --write-ghc-environment-files=ghc8.4.4+"
-    -- cmd_ "luaotfload-tool -vvv --update"
     _ <- need ["test-fused-effects.pdf"]
     _ <- need ["clean"]
     pure ()
