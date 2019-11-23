@@ -18,6 +18,9 @@ RUN apt-get install -y \
   build-essential curl libgmp-dev libffi-dev libncurses-dev libtinfo5 && \
   apt-get autoremove -y
 
+RUN mkdir -p /github/home && \
+  usermod -d /github/home root
+
 RUN fc-cache -fv && luaotfload-tool -vvv --update
 
 RUN mkdir -p ~/.ghcup/bin && \
@@ -32,19 +35,13 @@ RUN ghcup list -t all && \
   ghcup install-cabal latest
 
 RUN cabal user-config init && \
-  cabal v2-update --global
+  cabal v2-update
 
-RUN cabal v2-install doctest shake fused-effects --global --installdir=/root/.cabal/bin
+RUN cabal v2-install doctest shake fused-effects --installdir=/root/.cabal/bin
 
 RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   cd /root/llmk && \
   ln -s llmk.lua llmk
 ENV PATH /root/llmk:$PATH
-
-# RUN wget --trust-server-names "https://osdn.net/frs/redir.php?m=ymu&f=mytexpert%2F26068%2Fjlisting.sty.bz2" && \
-#   bunzip2 jlisting.sty.bz2 && \
-#   cp jlisting.sty /usr/share/texlive/texmf-dist/tex/latex/listings/ && \
-#   chmod 644 /usr/share/texlive/texmf-dist/tex/latex/listings/jlisting.sty && \
-#   mktexlsr
 
 ENTRYPOINT ["./Shakefile.hs", "scratch"]
