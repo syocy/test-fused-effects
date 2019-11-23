@@ -39,7 +39,7 @@ RUN HOME=$GITHUB_HOME && \
 
 RUN HOME=$GITHUB_HOME && \
   cabal user-config init && \
-  cabal v2-udpate && \
+  cabal v2-update && \
   cabal v2-install doctest shake fused-effects --installdir=$GITHUB_HOME/.cabal/bin
 
 RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
