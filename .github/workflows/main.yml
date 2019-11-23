@@ -6,6 +6,4 @@ jobs:
     name: 'build-pdf-job'
     steps:
       - uses: actions/checkout@v1
-      - run: |
-          cp -a ./* ./.github/actions/build-pdf/
       - uses: ./.github/actions/build-pdf/
