@@ -37,7 +37,7 @@ RUN HOME=$GITHUB_HOME && \
   ghcup set 8.8.1 && \
   ghcup install-cabal latest
 
-RUN HOME=$GITHUB_HOME &&
+RUN HOME=$GITHUB_HOME && \
   cabal user-config init && \
   cabal v2-udpate && \
   cabal v2-install doctest shake fused-effects --installdir=$GITHUB_HOME/.cabal/bin
