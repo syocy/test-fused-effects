@@ -18,26 +18,29 @@ RUN apt-get install -y \
   build-essential curl libgmp-dev libffi-dev libncurses-dev libtinfo5 && \
   apt-get autoremove -y
 
-RUN mkdir -p /github/home && \
-  usermod -d /github/home root
+ENV GITHUB_HOME /github/home
 
-RUN fc-cache -fv && luaotfload-tool -vvv --update
+RUN mkdir -p $GITHUB_HOME
 
-RUN mkdir -p ~/.ghcup/bin && \
-  mkdir -p ~/.cabal/bin && \
-  curl https://gitlab.haskell.org/haskell/ghcup/raw/master/ghcup > ~/.ghcup/bin/ghcup && \
-  chmod +x ~/.ghcup/bin/ghcup
-ENV PATH /root/.ghcup/bin:/root/.cabal/bin:$PATH
+RUN HOME=$GITHUB_HOME && fc-cache -fv && luaotfload-tool -vvv --update
 
-RUN ghcup list -t all && \
+RUN HOME=$GITHUB_HOME && \
+  mkdir -p $GITHUB_HOME/.ghcup/bin && \
+  mkdir -p $GITHUB_HOME/.cabal/bin && \
+  curl https://gitlab.haskell.org/haskell/ghcup/raw/master/ghcup > $GITHUB_HOME/.ghcup/bin/ghcup && \
+  chmod +x $GITHUB_HOME/.ghcup/bin/ghcup
+ENV PATH $GITHUB_HOME/.ghcup/bin:$GITHUB_HOME/.cabal/bin:$PATH
+
+RUN HOME=$GITHUB_HOME && \
+  ghcup list -t all && \
   ghcup install 8.8.1 && \
   ghcup set 8.8.1 && \
   ghcup install-cabal latest
 
-RUN cabal user-config init && \
-  cabal v2-update
-
-RUN cabal v2-install doctest shake fused-effects --installdir=/root/.cabal/bin
+RUN HOME=$GITHUB_HOME &&
+  cabal user-config init && \
+  cabal v2-udpate && \
+  cabal v2-install doctest shake fused-effects --installdir=$GITHUB_HOME/.cabal/bin
 
 RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   cd /root/llmk && \
