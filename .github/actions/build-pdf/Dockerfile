@@ -12,7 +12,7 @@ RUN apt-get install -y \
   git wget \
   texlive-latex-extra texlive-latex-recommended \
   texlive-lang-japanese texlive-fonts-recommended texlive-luatex \
-  fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-noto-mono fonts-ubuntu fontconfig \
+  fonts-noto-cjk fonts-noto-color-emoji fonts-noto-mono fonts-ubuntu fontconfig \
   build-essential curl libgmp-dev libffi-dev libncurses-dev libtinfo5 && \
   apt-get autoremove -y
 
