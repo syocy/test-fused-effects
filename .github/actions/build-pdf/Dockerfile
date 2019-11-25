@@ -16,7 +16,7 @@ RUN apt-get install -y \
   build-essential curl libgmp-dev libffi-dev libncurses-dev libtinfo5 && \
   apt-get autoremove -y
 
-RUN fc-cache -fv && luaotfload-tool -vvv --update
+RUN fc-cache -fv # && luaotfload-tool -vvv --update
 
 RUN mkdir -p ~/.ghcup/bin && \
   mkdir -p ~/.cabal/bin && \
@@ -31,7 +31,7 @@ RUN ghcup list -t all && \
 
 RUN cabal user-config init && \
   cabal v2-update && \
-  cabal v2-install doctest shake fused-effects --installdir=/root/.cabal/bin
+  cabal v2-install doctest shake --installdir=/root/.cabal/bin
 
 RUN git clone --depth 1 https://github.com/wtsnjp/llmk.git /root/llmk && \
   cd /root/llmk && \
