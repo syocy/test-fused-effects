@@ -6,4 +6,10 @@ jobs:
     name: 'build-pdf-job'
     steps:
       - uses: actions/checkout@v1
+
       - uses: ./.github/actions/build-pdf/
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: test-fused-effects.pdf
+          path: ./

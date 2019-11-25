@@ -27,11 +27,6 @@ main = shakeArgs shakeOptions{shakeFiles="_build"} $ do
     cmd_ "cabal v2-build"
     cmd "cabal v2-test"
 
-  phony "scratch" $ do
-    _ <- need ["test-fused-effects.pdf"]
-    _ <- need ["clean"]
-    pure ()
-
   phony "clean" $ do
     cmd_ "llmk -c"
     cmd_ "cabal v2-clean"
